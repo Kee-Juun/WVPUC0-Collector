@@ -1,0 +1,53 @@
+# Python cache/build output
+.git/
+.git_upload/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments and local environment files
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# PyInstaller output
+build/
+dist/
+*.spec
+
+# Local/generated runtime data
+tmp/
+tmp_*/
+outputs/
+logs/
+*.log
+download/
+
+# Local collector state/databases
+state.db
+*.sqlite
+*.sqlite3
+*.db
+database/*.db
+database/*.sqlite
+database/*.sqlite3
+
+# Local screenshots/previews/test artifacts
+*.png.tmp
+ui_*_preview.png
+
+# Accidental packaged/vendor artifacts copied into the project root
+win32/
+win32com/
+*.pyd
+*.pyd.backup
+
+# Excel/user run artifacts
+~$*.xlsx
+*.xlsm
+*.bak
