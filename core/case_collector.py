@@ -347,7 +347,7 @@ class CaseCollector:
             
             if db_canonical:
                 self.log_signal(
-                    f'  → Consolidated order already exists in database via {db_canonical}; '
+                    f'  -> Consolidated order already exists in database via {db_canonical}; '
                     f'skipping group: {", ".join(group_all_numbers)}'
                 )
                 for case in group_current:
@@ -374,7 +374,7 @@ class CaseCollector:
 
             if sfview_canonical:
                 self.log_signal(
-                    f'  → Consolidated order already exists in SF-View via {sfview_canonical}; '
+                    f'  -> Consolidated order already exists in SF-View via {sfview_canonical}; '
                     f'skipping group: {", ".join(group_all_numbers)}'
                 )
                 for case in group_current:
@@ -391,8 +391,12 @@ class CaseCollector:
             # 3) If any member is already in Tracker duplicates, skip whole group.
             if any(case_num in tracker_duplicates for case_num in group_all_numbers):
                 matched = [case_num for case_num in group_all_numbers if case_num in tracker_duplicates]
-                self.log_signal(f'  → Already collected in tracker: {", ".join(matched)}')
-                self.log_signal(f'  → Skipped: {", ".join(group_all_numbers)} ({len(group_all_numbers)} duplicates)')
+                remaining_numbers = [case['case_number'] for case in group_current]
+                self.log_signal(f'  -> Tracker matches: {", ".join(matched)}')
+                self.log_signal(
+                    f'  -> Skipped {len(remaining_numbers)} remaining consolidated case(s): '
+                    f'{", ".join(remaining_numbers)}'
+                )
                 for case in group_current:
                     case_id = self._get_case_identity(case)
                     if case_id not in skipped_case_ids:
@@ -405,8 +409,8 @@ class CaseCollector:
             selected_case = group_current[0]
             skipped_cases = group_current[1:]
             skipped_numbers = [case['case_number'] for case in skipped_cases]
-            self.log_signal(f'  → Selected: {selected_case["case_number"]}')
-            self.log_signal(f'  → Skipped: {", ".join(skipped_numbers)} ({len(skipped_cases)} duplicates)')
+            self.log_signal(f'  -> Selected: {selected_case["case_number"]}')
+            self.log_signal(f'  -> Skipped: {", ".join(skipped_numbers)} ({len(skipped_cases)} duplicates)')
             final_cases.append(selected_case)
             processed_case_ids.add(self._get_case_identity(selected_case))
             for skipped_case in skipped_cases:
